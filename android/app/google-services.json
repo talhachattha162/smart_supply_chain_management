@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "602493461173",
+    "project_id": "supply-chain-management-4790a",
+    "storage_bucket": "supply-chain-management-4790a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602493461173:android:a37569d0d145f3b8dc94fc",
+        "android_client_info": {
+          "package_name": "com.smartsupplychainfyp.smart_supply_chain_management_fyp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602493461173-6513kr2al3pv2v63rt09tugfdfsft4um.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvT2o8KgdqYTGDhFC2z6opqsePAh_ZT-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602493461173-6513kr2al3pv2v63rt09tugfdfsft4um.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
