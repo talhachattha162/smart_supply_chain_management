@@ -17,7 +17,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   final height=MediaQuery.sizeOf(context).height;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(),      resizeToAvoidBottomInset: false,
         body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Form(

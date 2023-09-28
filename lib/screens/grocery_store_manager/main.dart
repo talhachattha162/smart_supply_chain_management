@@ -1,13 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_supply_chain_management_fyp/models/grocery_store.dart';
+import 'package:smart_supply_chain_management_fyp/providers/grocerystore.dart';
 import 'package:smart_supply_chain_management_fyp/screens/grocery_store_details.dart';
 import '../../firebase/firebase_auth.dart';
 import '../../firebase/grocery_store.dart';
 import '../../main.dart';
 import '../../providers/user.dart';
 import '../../utils/theme.dart';
+import '../showReliefCamps.dart';
 import 'addUpdateGroceryInfo.dart';
+import 'groceryManager_requested_relief_camp_items.dart';
+import 'grocery_requested_items.dart';
 
 class GroceryStoreManagerMain extends StatefulWidget {
   const GroceryStoreManagerMain({super.key});
@@ -17,7 +21,7 @@ class GroceryStoreManagerMain extends StatefulWidget {
 }
 
 class _GroceryStoreManagerMainState extends State<GroceryStoreManagerMain> {
-  GroceryStore? groceryStore;
+  // GroceryStore? groceryStore;
   bool isLoading=true;
   @override
   void initState() {
@@ -26,7 +30,7 @@ class _GroceryStoreManagerMainState extends State<GroceryStoreManagerMain> {
     checkGroceryStore();
   }
   checkGroceryStore() async {
-    groceryStore=await getGroceryStore();
+    GroceryStoreProvider.groceryStore=await getGroceryStore();
     isLoading=false;
     setState(() {
 
@@ -51,14 +55,168 @@ class _GroceryStoreManagerMainState extends State<GroceryStoreManagerMain> {
       isLoading?
       Center(child: CircularProgressIndicator())
           :
-      groceryStore==null
+      GroceryStoreProvider.groceryStore==null
           ?
       GroceryStoreForm()
           :
-      groceryStore!.approveOrDeny=='approved'
+      GroceryStoreProvider.groceryStore!.approveOrDeny=='approved'
           ?
-      GroceryStoreDetails(groceryStore: groceryStore,appbar: false,):
-      groceryStore!.approveOrDeny=='pending'
+
+      Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>          GroceryStoreDetails(groceryStore: GroceryStoreProvider.groceryStore,appbar: false,)
+                    ));
+                  },
+                  child:
+                  Container(
+                    width: width * 0.47,
+                    height: height * 0.25,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey,
+                            blurRadius: 15,
+                            offset: Offset(4, 8), // Shadow position
+                          ),
+                        ],
+                        color: container_color,
+                        border: Border.all(color: container_border, width: 1),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset('lib/assets/imgs/grocery-store-1.jpg',fit: BoxFit.fill,height: height*0.15),
+                        SizedBox(height: height*0.01,),
+                        Text('Home',
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18)),
+                      ],
+                    ),
+                  )
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                        GroceryRequestedItems()
+                      ,));
+                  },
+                  child:
+                  Container(
+                    width: width * 0.47,
+                    height: height * 0.25,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey,
+                            blurRadius: 15,
+                            offset: Offset(4, 8), // Shadow position
+                          ),
+                        ],
+                        color: container_color,
+                        border: Border.all(color: container_border, width: 1),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset('lib/assets/imgs/request.png',fit: BoxFit.fill,height: height*0.15),
+                        SizedBox(height: height*0.01,),
+                        Text('Residents Item\n Requests',
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18)),
+                      ],
+                    ),
+                  )
+              ),
+
+            ]
+            ,),
+          SizedBox(height: height*0.02,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>      ShowReliefCamps()));
+                  },
+                  child:
+                  Container(
+                    width: width * 0.47,
+                    height: height * 0.25,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey,
+                            blurRadius: 15,
+                            offset: Offset(4, 8), // Shadow position
+                          ),
+                        ],
+                        color: container_color,
+                        border: Border.all(color: container_border, width: 1),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset('lib/assets/imgs/camp.jpg',fit: BoxFit.fill,height: height*0.15),
+                        SizedBox(height: height*0.01,),
+                        Text('Request From Camp',
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18)),
+                      ],
+                    ),
+                  )
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>      GroceryManagerRequestedReliefCampItems()));
+                  },
+                  child:
+                  Container(
+                    width: width * 0.47,
+                    height: height * 0.25,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey,
+                            blurRadius: 15,
+                            offset: Offset(4, 8), // Shadow position
+                          ),
+                        ],
+                        color: container_color,
+                        border: Border.all(color: container_border, width: 1),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset('lib/assets/imgs/camp.jpg',fit: BoxFit.fill,height: height*0.15),
+                        SizedBox(height: height*0.01,),
+                        Text('Trace Camp Request',
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18)),
+                      ],
+                    ),
+                  )
+              ),
+            ]
+            ,),
+
+        ],
+      )
+
+          :
+      GroceryStoreProvider.groceryStore!.approveOrDeny=='pending'
           ?
       Center(child: Text('Approval Pending'))
           :
@@ -73,7 +231,8 @@ class _GroceryStoreManagerMainState extends State<GroceryStoreManagerMain> {
               UserAccountsDrawerHeader(
                 accountName: Text(UserProvider.userModel!.name),
                 accountEmail: Text(UserProvider.userModel!.email),
-                currentAccountPicture: ClipOval(
+                currentAccountPicture:
+                ClipOval(
                   child:  CachedNetworkImage(
                     imageUrl: UserProvider.userModel!.photoUrl,
 

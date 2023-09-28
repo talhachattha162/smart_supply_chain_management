@@ -98,6 +98,15 @@ flutter:
      -  lib/assets/imgs/shop.png
      -  lib/assets/imgs/supermarket.png
      -  lib/assets/imgs/relief-camp.png
+     -  lib/assets/imgs/medicine.jpg
+     -  lib/assets/imgs/medicine1.png
+     -  lib/assets/imgs/grocery-store-1.jpg
+     -  lib/assets/imgs/camp-pic.jpg
+     -  lib/assets/imgs/grocery-pic.jpg
+     -  lib/assets/imgs/medical-pic.jpg
+     -  lib/assets/imgs/request.png
+     -  lib/assets/imgs/camp.jpg
+     -  lib/assets/imgs/grocery.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

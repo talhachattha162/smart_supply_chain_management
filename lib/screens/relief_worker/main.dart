@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_supply_chain_management_fyp/screens/relief_worker/relief_worker_body.dart';
 
 import '../../firebase/firebase_auth.dart';
 import '../../main.dart';
@@ -13,8 +14,8 @@ class ReliefWorkerMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('Relief Worker')),
-        appBar: AppBar(),
+      body: ReliefWorkerBody(),
+        appBar: AppBar(),      resizeToAvoidBottomInset: false,
         drawer: Drawer(backgroundColor: Colors.blueAccent,
           child: ListView(
             padding: EdgeInsets.zero,

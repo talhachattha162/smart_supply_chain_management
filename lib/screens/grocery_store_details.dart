@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/firebase_user.dart';
+import 'package:smart_supply_chain_management_fyp/providers/grocerystore.dart';
 import 'package:smart_supply_chain_management_fyp/utils/theme.dart';
+import '../firebase/grocery_item.dart';
+import '../firebase/storeGroceryRequesteditems.dart';
 import '../models/grocery_store.dart';
+import '../models/requestedGroceryItem.dart';
 import '../models/user.dart';
+import '../providers/groceryItems.dart';
+import '../providers/user.dart';
+import 'grocery_store_manager/grocery_stock.dart';
 
 class GroceryStoreDetails extends StatelessWidget {
   final GroceryStore? groceryStore;
 final appbar;
-  const GroceryStoreDetails({super.key,required this.groceryStore,required this.appbar});
+   GroceryStoreDetails({super.key,required this.groceryStore,required this.appbar});
+  bool isLoadingForRequest=false;
+  List<int> quantities=[];
 
   Future<UserModel?> getManager() async {
     UserService userService=UserService();
@@ -20,7 +29,7 @@ final appbar;
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
-        appBar: appbar?AppBar():null,
+        appBar: AppBar(),      resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: SingleChildScrollView(
@@ -333,6 +342,134 @@ final appbar;
             ),
           ),
         )
+,
+        floatingActionButton:FloatingActionButton(onPressed: () async {
+          GroceryStoreProvider.groceryStore=groceryStore;
+      await Navigator.push(context, MaterialPageRoute(builder: (context) => GroceryStock(),));
+          // GroceryStoreProvider.groceryStore=null;
+      if(GroceryStoreItemProvider.groceryStoreItems.length!=0) {
+        for (int i = 0; i < GroceryStoreItemProvider.groceryStoreItems.length; i++) {
+          quantities.add(1);
+        }
+        showDialog(context: context, builder: (context) {
+          return
+            StatefulBuilder(
+                builder: (context, setState) {
+                  return AlertDialog(
+                    title: Text('Items'),
+                    content: Container(
+                      width: double.maxFinite,
+                      child:
+                      GroceryStoreItemProvider.groceryStoreItems == null ?
+                      Center(child: Text('Nothing found'))
+                          :
+                      GroceryStoreItemProvider.groceryStoreItems!.isEmpty
+                          ?
+                      Center(child: Text('Nothing found'))
+                          :
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: GroceryStoreItemProvider.groceryStoreItems!.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment
+                                  .spaceBetween,
+                              children: [
+                                Text(GroceryStoreItemProvider.groceryStoreItems![index]
+                                    .itemName
+                                    .toString()),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.remove),
+                                      onPressed: () {
+                                        if (quantities[index] > 1) {
+                                          setState(() {
+                                            quantities[index] =
+                                                quantities[index] - 1;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                    Text(quantities[index].toString()),
+                                    IconButton(
+                                      icon: Icon(Icons.add),
+                                      onPressed: () {
+                                        if (quantities[index] <
+                                            GroceryStoreItemProvider.groceryStoreItems![index]
+                                                .quantityInStock!) {
+                                          setState(() {
+                                            quantities[index] =
+                                                quantities[index] + 1;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () async {
+                          setState(() {
+                            isLoadingForRequest = true;
+                          });
+                          GroceryItemService groceryItemService = GroceryItemService();
+                          for (int i = 0; i <
+                              GroceryStoreItemProvider.groceryStoreItems.length; i++) {
+                            await groceryItemService.updateGroceryItem(
+                                GroceryStoreItemProvider.groceryStoreItems[i].id,
+                                GroceryStoreItemProvider.groceryStoreItems[i]
+                                    .quantityInStock! - quantities[i]);
+                            GroceryStoreItemProvider.groceryStoreItems[i]
+                                .quantityInStock = quantities[i];
+                          }
+                          quantities.clear();
+                          RequestedGroceryItemService requestGroceryItemService = RequestedGroceryItemService();
+                          RequestedGroceryItem requestedGroceryItem = RequestedGroceryItem(
+                              id: '',
+                              groceryItems: GroceryStoreItemProvider.groceryStoreItems,
+                              resident: UserProvider.userModel,
+                              status: 'pending',
+                              remarks: '',
+                            Recievedby: ''
+                          );
+                          await requestGroceryItemService
+                              .createRequestedGroceryItem(
+                              requestedGroceryItem);
+                          GroceryStoreItemProvider.groceryStoreItems?.clear();
+                          setState(() {
+                            isLoadingForRequest = false;
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: isLoadingForRequest ? Center(
+                            child: CircularProgressIndicator()) : Text(
+                            'Request'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          GroceryStoreItemProvider.groceryStoreItems?.clear();
+                          Navigator.pop(context);
+                        },
+                        child: Text('Close'),
+                      ),
+                    ],
+                  );
+                }
+            );
+        }
+        );
+      }
+    } ,child: Text('Stock'))
+
     );
   }
 }

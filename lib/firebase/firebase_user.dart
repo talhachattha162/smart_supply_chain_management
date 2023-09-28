@@ -35,4 +35,19 @@ class UserService {
       await _usersCollection.doc(user.id).update(user.toMap());
 
   }
+
+  Future<List<UserModel>> getUsersByRole(String userRole) async {
+    QuerySnapshot userSnapshots =
+    await _usersCollection.where('userRole', isEqualTo: userRole).get();
+
+    List<UserModel> users = [];
+
+    for (QueryDocumentSnapshot doc in userSnapshots.docs) {
+      UserModel user = UserModel.fromMap(doc.data() as Map<String, dynamic>);
+      users.add(user);
+    }
+
+    return users;
+  }
+
 }

@@ -16,7 +16,7 @@ class SelectRole extends StatelessWidget {
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(),      resizeToAvoidBottomInset: false,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -74,7 +74,7 @@ class SelectRole extends StatelessWidget {
             clipper: WavyBottomClipper(),
             child: Container(
               color: Colors.blue,
-              height: height*0.1,
+              height: height*0.09,
             ),
           ),
         ],

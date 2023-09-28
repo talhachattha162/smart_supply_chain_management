@@ -467,33 +467,24 @@ print(medicalFacility.toMap());
                 height: height * 0.03,
               ),
 
-              InkWell(
-                onTap: () async {
-                  if (_formKey.currentState!.validate()) {
-                    if(Provider.of<AddMedicalProvider>(context,listen:false).location!=''){
-                    Provider.of<AddMedicalProvider>(context,listen:false).isLoading=true;
-                    _formKey.currentState!.save();
+              SizedBox(
+                width: width*0.8,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      if(Provider.of<AddMedicalProvider>(context,listen:false).location!=''){
+                      Provider.of<AddMedicalProvider>(context,listen:false).isLoading=true;
+                      _formKey.currentState!.save();
 
-                    MedicalFacility medicalFacility= MedicalFacility(id: '', managerId: UserProvider.userModel!.id, facilityName: facilityName, location: Provider.of<AddMedicalProvider>(context,listen:false).location,latitude: Provider.of<AddMedicalProvider>(context,listen:false).latitude,longitude: Provider.of<AddMedicalProvider>(context,listen:false).longitude, medicalFacilityEmail: medicalFacilityEmail, medicalFacilityPhone: medicalFacilityPhone, selectedFacilityType: Provider.of<AddMedicalProvider>(context,listen:false). selectedFacilityType, numberOfBeds: numberOfBeds, medicalStaff: medicalStaff, availableMedicalEquipmentCount: availableMedicalEquipmentCount, inventoryDesc: inventoryDesc, selectedStatus:  Provider.of<AddMedicalProvider>(context,listen:false).selectedStatus, accessibility: accessibility, selectedStartTime: Provider.of<AddMedicalProvider>(context,listen:false).selectedStartTime, selectedEndTime: Provider.of<AddMedicalProvider>(context,listen:false).selectedEndTime, approveOrDeny: 'pending');
-                  await  _addDataToFirebase(medicalFacility);
+                      MedicalFacility medicalFacility= MedicalFacility(id: '', managerId: UserProvider.userModel!.id, facilityName: facilityName, location: Provider.of<AddMedicalProvider>(context,listen:false).location,latitude: Provider.of<AddMedicalProvider>(context,listen:false).latitude,longitude: Provider.of<AddMedicalProvider>(context,listen:false).longitude, medicalFacilityEmail: medicalFacilityEmail, medicalFacilityPhone: medicalFacilityPhone, selectedFacilityType: Provider.of<AddMedicalProvider>(context,listen:false). selectedFacilityType, numberOfBeds: numberOfBeds, medicalStaff: medicalStaff, availableMedicalEquipmentCount: availableMedicalEquipmentCount, inventoryDesc: inventoryDesc, selectedStatus:  Provider.of<AddMedicalProvider>(context,listen:false).selectedStatus, accessibility: accessibility, selectedStartTime: Provider.of<AddMedicalProvider>(context,listen:false).selectedStartTime, selectedEndTime: Provider.of<AddMedicalProvider>(context,listen:false).selectedEndTime, approveOrDeny: 'pending');
+                    await  _addDataToFirebase(medicalFacility);
 
     }
     else{
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pick Location')));
     }
-                  }
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: button_color,
-                    borderRadius: BorderRadius.all(Radius.circular(40)),
-                    border: Border.all(
-                      color: button_color, // Border color
-                      width: 2.0, // Border width
-                    ),
-                  ),
-                  height: height * 0.07,
-                  width: width,
+                    }
+                  },
                   child: Selector<AddMedicalProvider,bool>(
                     selector: (p0, p1) => p1.isLoading,
                     builder: (context, isLoading, child) =>  Center(

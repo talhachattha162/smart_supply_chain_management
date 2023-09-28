@@ -1,19 +1,19 @@
 class MedicalItem {
   String id;
   String hospitalId;
-  String itemName;
-  String brand;
-  String description;
-  String unitOfMeasurement;
-  int quantityInStock;
-  int reorderLevel;
-  String suppliername;
-  String supplieremail;
-  String supplierphone;
-  String shelfLocation;
-  String stockStatus;
+  String? itemName;
+  String? brand;
+  String? description;
+  String? unitOfMeasurement;
+  int? quantityInStock;
+  int? reorderLevel;
+  String? suppliername;
+  String? supplieremail;
+  String? supplierphone;
+  String? shelfLocation;
+  String? stockStatus;
   DateTime? expirationDate;
-  String additionalNotes;
+  String? additionalNotes;
 
   MedicalItem({
     required this.id,

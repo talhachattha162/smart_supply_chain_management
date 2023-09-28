@@ -217,7 +217,7 @@ class SignupScreen extends StatelessWidget {
                     clipper: WavyBottomClipper(),
                     child: Container(
                       color: Colors.blue,
-                      height: height*0.1,
+                      height: height*0.09,
                     ),
                   ),
                 ],

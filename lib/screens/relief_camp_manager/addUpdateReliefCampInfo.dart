@@ -204,33 +204,24 @@ class _ReliefCampFormState extends State<ReliefCampForm> {
                     height: height * 0.01,
                   ),
 
-                  InkWell(
-                    onTap: () async {
-                      if (_formKey.currentState!.validate()) {
-                        if(Provider.of<AddReliefCampProvider>(context,listen:false).location!=''){
-                        Provider.of<AddReliefCampProvider>(context,listen:false).isLoading=true;
-                        _formKey.currentState!.save();
-                        ReliefCamp reliefCamp=ReliefCamp(id: '', campName: campName, location: Provider.of<AddReliefCampProvider>(context,listen:false).location, email: email, phoneNumber: phoneNumber, description: description, approveOrDeny: 'pending',managerId: UserProvider.userModel!.id,longitude: Provider.of<AddReliefCampProvider>(context,listen:false).longitude,latitude: Provider.of<AddReliefCampProvider>(context,listen:false).latitude);
-                        await _addDataToFirebaseIsolate(reliefCamp);
-                      }
-                        else{
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pick Location')));
+                  SizedBox(
+                    width: width*0.8,
+                    child: ElevatedButton(
+                      onPressed:  () async {
+                        if (_formKey.currentState!.validate()) {
+                          if(Provider.of<AddReliefCampProvider>(context,listen:false).location!=''){
+                          Provider.of<AddReliefCampProvider>(context,listen:false).isLoading=true;
+                          _formKey.currentState!.save();
+                          ReliefCamp reliefCamp=ReliefCamp(id: '', campName: campName, location: Provider.of<AddReliefCampProvider>(context,listen:false).location, email: email, phoneNumber: phoneNumber, description: description, approveOrDeny: 'pending',managerId: UserProvider.userModel!.id,longitude: Provider.of<AddReliefCampProvider>(context,listen:false).longitude,latitude: Provider.of<AddReliefCampProvider>(context,listen:false).latitude);
+                          await _addDataToFirebaseIsolate(reliefCamp);
                         }
-                      }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pick Location')));
+                          }
+                        }
 
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: button_color,
-                        borderRadius: BorderRadius.all(Radius.circular(40)),
-                        border: Border.all(
-                          color: button_color, // Border color
-                          width: 2.0, // Border width
-                        ),
-                      ),
-                      height: height * 0.07,
-                      width: width,
-                      child:  Selector<AddReliefCampProvider,bool>(
+                      },
+                      child: Selector<AddReliefCampProvider,bool>(
                           selector: (p0, p1) => p1.isLoading,
                           builder: (context, isLoading, child) =>
                          isLoading?Center(child: CircularProgressIndicator()): Center(

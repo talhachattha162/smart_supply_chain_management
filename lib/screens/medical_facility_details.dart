@@ -1,20 +1,35 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/firebase_user.dart';
+import 'package:smart_supply_chain_management_fyp/firebase/medical_item.dart';
+import 'package:smart_supply_chain_management_fyp/firebase/storeMedicalRequesteditems.dart';
+import 'package:smart_supply_chain_management_fyp/models/requestedMedicalItem.dart';
+import 'package:smart_supply_chain_management_fyp/providers/medicalFacility.dart';
 import 'package:smart_supply_chain_management_fyp/utils/theme.dart';
 
 import '../models/medical_facility.dart';
 import '../models/user.dart';
+import '../providers/medicalItems.dart';
 import '../providers/user.dart';
-import 'medical_stock.dart';
+import 'medical_manager/medical_stock.dart';
 
-class MedicalFacilityDetails extends StatelessWidget {
+class MedicalFacilityDetails extends StatefulWidget {
   final MedicalFacility? medicalFacility;
 final bool appbar;
   const MedicalFacilityDetails({super.key,required this.medicalFacility,required this.appbar});
 
+  @override
+  State<MedicalFacilityDetails> createState() => _MedicalFacilityDetailsState();
+}
+
+class _MedicalFacilityDetailsState extends State<MedicalFacilityDetails> {
+
+  bool isLoadingForRequest=false;
+  List<int> quantities=[];
+
  Future<UserModel?> getManager() async {
 UserService userService=UserService();
-UserModel? userModel=await userService.getUserById(medicalFacility!.managerId);
+UserModel? userModel=await userService.getUserById(widget.medicalFacility!.managerId);
 return userModel;
   }
 
@@ -23,7 +38,7 @@ return userModel;
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
-      appBar: appbar?AppBar():null,
+      appBar: AppBar(),      resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: SingleChildScrollView(
@@ -45,11 +60,11 @@ return userModel;
                             child: Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: Image.asset(
-                                medicalFacility!.selectedFacilityType =='hospital'
+                                widget.medicalFacility!.selectedFacilityType =='hospital'
                                     ?
                                 'lib/assets/imgs/hospital.png'
                                     :
-                                medicalFacility!.selectedFacilityType=='clinic'
+                                widget.medicalFacility!.selectedFacilityType=='clinic'
                                     ?
                                 'lib/assets/imgs/clinic.png'
                                     :
@@ -65,7 +80,7 @@ return userModel;
                               Row(
                                 children: [
                                   Text(
-                                    medicalFacility!.facilityName,
+                                    widget.medicalFacility!.facilityName,
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
@@ -74,7 +89,7 @@ return userModel;
                                     width: width * 0.02,
                                   ),
                                   Text(
-                                    medicalFacility!.selectedFacilityType
+                                    widget.medicalFacility!.selectedFacilityType
                                         .toString(),
                                     style: TextStyle(
                                         fontSize: 20,
@@ -97,9 +112,9 @@ return userModel;
                               Row(
                                 children: [
                                   Icon(Icons.location_on_outlined),
-                                  Text(medicalFacility!.location.length <= 30
-                                      ? medicalFacility!.location
-                                      : medicalFacility!.location.substring(0, 30)),
+                                  Text(widget.medicalFacility!.location.length <= 30
+                                      ? widget.medicalFacility!.location
+                                      : widget.medicalFacility!.location.substring(0, 30)),
                                 ],
                               ),
                             ],
@@ -169,7 +184,7 @@ return userModel;
                               width: width * 0.02,
                             ),
                             Text(
-                              medicalFacility!.numberOfBeds.toString(),
+                              widget.medicalFacility!.numberOfBeds.toString(),
                               style: TextStyle(fontSize: 20),
                             )
                           ],
@@ -182,7 +197,7 @@ return userModel;
                               width: width * 0.02,
                             ),
                             Text(
-                              medicalFacility!.medicalStaff.toString(),
+                              widget.medicalFacility!.medicalStaff.toString(),
                               style: TextStyle(fontSize: 20),
                             )
                           ],
@@ -195,7 +210,7 @@ return userModel;
                               width: width * 0.02,
                             ),
                             Text(
-                              medicalFacility!.availableMedicalEquipmentCount
+                              widget.medicalFacility!.availableMedicalEquipmentCount
                                   .toString(),
                               style: TextStyle(fontSize: 20),
                             )
@@ -221,8 +236,8 @@ return userModel;
                               ),
                             ),
                             Text(
-                              medicalFacility!.selectedStartTime!.hour
-                                  .toString() + ':'+ medicalFacility!
+                              widget.medicalFacility!.selectedStartTime!.hour
+                                  .toString() + ':'+ widget.medicalFacility!
                                   .selectedStartTime!.minute.toString(),
                               style: TextStyle(
                                 fontSize: 18,
@@ -241,8 +256,8 @@ return userModel;
                               ),
                             ),
                             Text(
-                              medicalFacility!.selectedEndTime!.hour.toString() + ':'+
-                                  medicalFacility!.selectedEndTime!.minute
+                              widget.medicalFacility!.selectedEndTime!.hour.toString() + ':'+
+                                  widget.medicalFacility!.selectedEndTime!.minute
                                       .toString(),
 
                               style: TextStyle(
@@ -277,8 +292,8 @@ return userModel;
                                   vertical: 15.0),
                               child: TabBarView(
                                 children: [
-                                  Text(medicalFacility!.inventoryDesc),
-                                  Text(medicalFacility!.accessibility),
+                                  Text(widget.medicalFacility!.inventoryDesc),
+                                  Text(widget.medicalFacility!.accessibility),
                                  snapshot.connectionState==ConnectionState.waiting?
                                    Center(child: CircularProgressIndicator()):
                                    Container(
@@ -336,8 +351,132 @@ return userModel;
           ),
         ),
 
-      floatingActionButton:FloatingActionButton(onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MedicalStock(),));
+      floatingActionButton:FloatingActionButton(onPressed: () async {
+        MedicalFacilityProvider.medicalFacility=widget.medicalFacility;
+       await Navigator.push(context, MaterialPageRoute(builder: (context) => MedicalStock(),));
+        // MedicalFacilityProvider.medicalFacility=null;
+       if(MedicalItemProvider.medicalItems.length!=0) {
+         for (int i = 0; i < MedicalItemProvider.medicalItems.length; i++) {
+           quantities.add(1);
+         }
+         showDialog(context: context, builder: (context) {
+           return
+             StatefulBuilder(
+                 builder: (context, setState) {
+                   return AlertDialog(
+                     title: Text('Items'),
+                     content: Container(
+                       width: double.maxFinite,
+                       child:
+                       MedicalItemProvider.medicalItems == null ?
+                       Center(child: Text('Nothing found'))
+                           :
+                       MedicalItemProvider.medicalItems!.isEmpty
+                           ?
+                       Center(child: Text('Nothing found'))
+                           :
+                       ListView.builder(
+                         shrinkWrap: true,
+                         itemCount: MedicalItemProvider.medicalItems!.length,
+                         itemBuilder: (context, index) {
+                           return Padding(
+                             padding: const EdgeInsets.all(8.0),
+                             child: Row(
+                               mainAxisAlignment: MainAxisAlignment
+                                   .spaceBetween,
+                               children: [
+                                 Text(MedicalItemProvider.medicalItems![index]
+                                     .itemName
+                                     .toString()),
+                                 Row(
+                                   children: [
+                                     IconButton(
+                                       icon: Icon(Icons.remove),
+                                       onPressed: () {
+                                         if (quantities[index] > 1) {
+                                           setState(() {
+                                             quantities[index] =
+                                                 quantities[index] - 1;
+                                           });
+                                         }
+                                       },
+                                     ),
+                                     Text(quantities[index].toString()),
+                                     IconButton(
+                                       icon: Icon(Icons.add),
+                                       onPressed: () {
+                                         if (quantities[index] <
+                                             MedicalItemProvider
+                                                 .medicalItems![index]
+                                                 .quantityInStock!) {
+                                           setState(() {
+                                             quantities[index] =
+                                                 quantities[index] + 1;
+                                           });
+                                         }
+                                       },
+                                     ),
+                                   ],
+                                 ),
+                               ],
+                             ),
+                           );
+                         },
+                       ),
+                     ),
+                     actions: [
+                       TextButton(
+                         onPressed: () async {
+                           setState(() {
+                             isLoadingForRequest = true;
+                           });
+                           MedicalItemService medicalItemService = MedicalItemService();
+                           for (int i = 0; i <
+                               MedicalItemProvider.medicalItems.length; i++) {
+                             await medicalItemService.updateMedicalItem(
+                                 MedicalItemProvider.medicalItems[i].id,
+                                 MedicalItemProvider.medicalItems[i]
+                                     .quantityInStock! - quantities[i]);
+                             MedicalItemProvider.medicalItems[i]
+                                 .quantityInStock = quantities[i];
+                           }
+                           quantities.clear();
+                           RequestedMedicalItemService requestMedicalItemService = RequestedMedicalItemService();
+                           RequestedMedicalItem requestedMedicalItem = RequestedMedicalItem(
+                               id: '',
+                               medicalItems: MedicalItemProvider.medicalItems,
+                               resident: UserProvider.userModel,
+                           status: 'pending',
+                             remarks: '',
+                             Recievedby: ''
+                           );
+                           await requestMedicalItemService
+                               .createRequestedMedicalItem(
+                               requestedMedicalItem);
+                           MedicalItemProvider.medicalItems.clear();
+                           setState(() {
+                             isLoadingForRequest = false;
+                           });
+                           Navigator.pop(context);
+                         },
+                         child: isLoadingForRequest ? Center(
+                             child: CircularProgressIndicator()) : Text(
+                             'Request'),
+                       ),
+                       TextButton(
+                         onPressed: () {
+                           MedicalItemProvider.medicalItems.clear();
+                           Navigator.pop(context);
+                         },
+                         child: Text('Close'),
+                       ),
+                     ],
+                   );
+                 }
+             );
+         }
+         );
+       }
       } ,child: Text('Stock'))
 
     );

@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/firebase_user.dart';
+import 'package:smart_supply_chain_management_fyp/firebase/reliefCamp_item.dart';
+import 'package:smart_supply_chain_management_fyp/firebase/storeReliefCampRequesteditems.dart';
 import 'package:smart_supply_chain_management_fyp/models/relief_camp.dart';
+import 'package:smart_supply_chain_management_fyp/models/requestedReliefCampItem.dart';
+import 'package:smart_supply_chain_management_fyp/providers/relief_Camp.dart';
+import 'package:smart_supply_chain_management_fyp/screens/relief_camp_manager/relief_camp_stock.dart';
 import 'package:smart_supply_chain_management_fyp/utils/theme.dart';
 import '../../models/user.dart';
+import '../providers/relief_Camp_item.dart';
+import '../providers/user.dart';
 
 class ReliefCampDetails extends StatelessWidget {
   final ReliefCamp? reliefCamp;
 final appbar;
-  const ReliefCampDetails({super.key,required this.reliefCamp,required this.appbar});
-
+   ReliefCampDetails({super.key,required this.reliefCamp,required this.appbar});
+  bool isLoadingForRequest=false;
+  List<int> quantities=[];
+  
   Future<UserModel?> getManager() async {
     UserService userService=UserService();
     UserModel? userModel=await userService.getUserById(reliefCamp!.managerId);
@@ -20,7 +29,7 @@ final appbar;
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
-        appBar: appbar?AppBar():null,
+        appBar: AppBar(),      resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: SingleChildScrollView(
@@ -214,7 +223,133 @@ final appbar;
                 }
             ),
           ),
-        )
+        ),
+        floatingActionButton:FloatingActionButton(onPressed: () async {
+          ReliefCampProvider.reliefCamp=reliefCamp;
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => ReliefCampStock(),));
+          // MedicalFacilityProvider.medicalFacility=null;
+          if(ReliefCampItemProvider.reliefCampItems.length!=0) {
+            for (int i = 0; i < ReliefCampItemProvider.reliefCampItems.length; i++) {
+              quantities.add(1);
+            }
+            showDialog(context: context, builder: (context) {
+              return
+                StatefulBuilder(
+                    builder: (context, setState) {
+                      return AlertDialog(
+                        title: Text('Items'),
+                        content: Container(
+                          width: double.maxFinite,
+                          child:
+
+                          ReliefCampItemProvider.reliefCampItems.isEmpty
+                              ?
+                          Center(child: Text('Nothing found'))
+                              :
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: ReliefCampItemProvider.reliefCampItems.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween,
+                                  children: [
+                                    Text(ReliefCampItemProvider.reliefCampItems[index]
+                                        .itemName
+                                        .toString()),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(Icons.remove),
+                                          onPressed: () {
+                                            if (quantities[index] > 1) {
+                                              setState(() {
+                                                quantities[index] =
+                                                    quantities[index] - 1;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        Text(quantities[index].toString()),
+                                        IconButton(
+                                          icon: Icon(Icons.add),
+                                          onPressed: () {
+                                            if (quantities[index] <
+                                                ReliefCampItemProvider
+                                                    .reliefCampItems[index]
+                                                    .quantityInStock!) {
+                                              setState(() {
+                                                quantities[index] =
+                                                    quantities[index] + 1;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              setState(() {
+                                isLoadingForRequest = true;
+                              });
+                              ReliefCampItemService reliefCampItemService = ReliefCampItemService();
+                              for (int i = 0; i <
+                                  ReliefCampItemProvider.reliefCampItems.length; i++) {
+                                await reliefCampItemService.updateReliefCampItem(
+                                    ReliefCampItemProvider.reliefCampItems[i].id,
+                                    ReliefCampItemProvider.reliefCampItems[i]
+                                        .quantityInStock! - quantities[i]);
+                                ReliefCampItemProvider.reliefCampItems[i]
+                                    .quantityInStock = quantities[i];
+                              }
+                              quantities.clear();
+                              RequestedReliefCampItemService requestReliefCampItemService = RequestedReliefCampItemService();
+                              RequestedReliefCampItem requestedReliefCampItem = RequestedReliefCampItem(
+                                  id: '',
+                                  reliefCampItems:  ReliefCampItemProvider.reliefCampItems,
+                                  resident: UserProvider.userModel,
+                                  status: 'pending',
+                                  remarks: '',
+                                Recievedby: ''
+                              );
+                              await requestReliefCampItemService
+                                  .createRequestedReliefCampItem(
+                                  requestedReliefCampItem);
+                              ReliefCampItemProvider.reliefCampItems.clear();
+                              setState(() {
+                                isLoadingForRequest = false;
+                              });
+                              Navigator.pop(context);
+                            },
+                            child: isLoadingForRequest ? Center(
+                                child: CircularProgressIndicator()) : Text(
+                                'Request'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              ReliefCampItemProvider.reliefCampItems.clear();
+                              Navigator.pop(context);
+                            },
+                            child: Text('Close'),
+                          ),
+                        ],
+                      );
+                    }
+                );
+            }
+            );
+          }
+        } ,child: Text('Stock'))
+
     );
   }
 }

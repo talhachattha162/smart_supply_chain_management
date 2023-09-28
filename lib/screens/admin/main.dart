@@ -77,7 +77,8 @@ class AdminMain extends StatelessWidget {
                                   fontSize: 18)),
                         ],
                       ),
-                    )),
+                    )
+                ),
                 InkWell(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => AdminGroceryStore(),));

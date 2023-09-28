@@ -408,64 +408,55 @@ class _GroceryStoreFormState extends State<GroceryStoreForm> {
               SizedBox(
                 height: height * 0.03,
               ),
-              InkWell(
-                onTap: () async {
-                  if (_formKey.currentState!.validate()) {
-                    if(Provider.of<AddGroceryProvider>(context,listen:false).location!='') {
-                      Provider
-                          .of<AddGroceryProvider>(context, listen: false)
-                          .isLoading = true;
-                      _formKey.currentState!.save();
-                      GroceryStore groceryStore = GroceryStore(id: '',
-                          managerId: UserProvider.userModel!.id,
-                          storeName: storeName,
-                          location: Provider
-                              .of<AddGroceryProvider>(context, listen: false)
-                              .location,
-                          latitude: Provider
-                              .of<AddGroceryProvider>(context, listen: false)
-                              .latitude,
-                          longitude: Provider
-                              .of<AddGroceryProvider>(context, listen: false)
-                              .longitude,
-                          contactPhone: contactPhone,
-                          contactEmail: contactEmail,
-                          selectedStoreType: Provider
-                              .of<AddGroceryProvider>(context, listen: false)
-                              .selectedStoreType,
-                          inventorydesc: inventorydesc,
-                          hasDeliveryServices: Provider
-                              .of<AddGroceryProvider>(context, listen: false)
-                              .hasDeliveryServices,
-                          selectedStatus: Provider
-                              .of<AddGroceryProvider>(context, listen: false)
-                              .selectedStatus,
-                          accessibility: accessibility,
-                          selectedStartTime: Provider
-                              .of<AddGroceryProvider>(context, listen: false)
-                              .selectedStartTime,
-                          selectedEndTime: Provider
-                              .of<AddGroceryProvider>(context, listen: false)
-                              .selectedEndTime,
-                          approveOrDeny: 'pending');
-                      await _addDataToFirebase(groceryStore);
+              SizedBox(
+                width: width*0.8,
+                child: ElevatedButton(
+                  onPressed:  () async {
+                    if (_formKey.currentState!.validate()) {
+                      if(Provider.of<AddGroceryProvider>(context,listen:false).location!='') {
+                        Provider
+                            .of<AddGroceryProvider>(context, listen: false)
+                            .isLoading = true;
+                        _formKey.currentState!.save();
+                        GroceryStore groceryStore = GroceryStore(id: '',
+                            managerId: UserProvider.userModel!.id,
+                            storeName: storeName,
+                            location: Provider
+                                .of<AddGroceryProvider>(context, listen: false)
+                                .location,
+                            latitude: Provider
+                                .of<AddGroceryProvider>(context, listen: false)
+                                .latitude,
+                            longitude: Provider
+                                .of<AddGroceryProvider>(context, listen: false)
+                                .longitude,
+                            contactPhone: contactPhone,
+                            contactEmail: contactEmail,
+                            selectedStoreType: Provider
+                                .of<AddGroceryProvider>(context, listen: false)
+                                .selectedStoreType,
+                            inventorydesc: inventorydesc,
+                            hasDeliveryServices: Provider
+                                .of<AddGroceryProvider>(context, listen: false)
+                                .hasDeliveryServices,
+                            selectedStatus: Provider
+                                .of<AddGroceryProvider>(context, listen: false)
+                                .selectedStatus,
+                            accessibility: accessibility,
+                            selectedStartTime: Provider
+                                .of<AddGroceryProvider>(context, listen: false)
+                                .selectedStartTime,
+                            selectedEndTime: Provider
+                                .of<AddGroceryProvider>(context, listen: false)
+                                .selectedEndTime,
+                            approveOrDeny: 'pending');
+                        await _addDataToFirebase(groceryStore);
+                      }
+                      else{
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pick Location')));
+                      }
                     }
-                    else{
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pick Location')));
-                    }
-                  }
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: button_color,
-                    borderRadius: BorderRadius.all(Radius.circular(40)),
-                    border: Border.all(
-                      color: button_color, // Border color
-                      width: 2.0, // Border width
-                    ),
-                  ),
-                  height: height * 0.07,
-                  width: width,
+                  },
                   child: Selector<AddGroceryProvider,bool>(
                     selector: (p0, p1) => p1.isLoading,
                     builder: (context, isLoading, child) =>   Center(
