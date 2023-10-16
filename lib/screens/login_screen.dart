@@ -18,6 +18,7 @@ import '../providers/login.dart';
 import '../providers/selectrole.dart';
 import '../providers/signup.dart';
 import '../utils/theme.dart';
+import 'donor/main.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
@@ -195,6 +196,15 @@ Provider.of<LoginProvider>(context,listen: false).obscurePass=!Provider.of<Login
                                             ),
                                           );
                                         }
+                                        else if (UserProvider.userModel!.userRole == 'Donor') {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DonorMain(),
+                                            ),
+                                          );
+                                        }
+
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(

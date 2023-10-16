@@ -238,6 +238,9 @@ class _GroceryRequestedItemsDetailState extends State<GroceryRequestedItemsDetai
             ],
           )
               :
+          widget.requestedGroceryItem.remarks==''?
+          Center(child: Text('Remarks not added '),)
+              :
               Center(child: Text('Remarks: '+widget.requestedGroceryItem.remarks.toString()),)
         ]),
       ),

@@ -205,7 +205,6 @@ class _ReliefCampFormState extends State<ReliefCampForm> {
                   ),
 
                   SizedBox(
-                    width: width*0.8,
                     child: ElevatedButton(
                       onPressed:  () async {
                         if (_formKey.currentState!.validate()) {
@@ -224,9 +223,9 @@ class _ReliefCampFormState extends State<ReliefCampForm> {
                       child: Selector<AddReliefCampProvider,bool>(
                           selector: (p0, p1) => p1.isLoading,
                           builder: (context, isLoading, child) =>
-                         isLoading?Center(child: CircularProgressIndicator()): Center(
+                         isLoading?Center(child: CircularProgressIndicator(color: container_color,)): Center(
                             child: Text('Submit',
-                                style: TextStyle(color: Colors.white))),
+                                style: TextStyle(color: container_color))),
                       ),
                     ),
                   ),

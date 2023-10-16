@@ -185,14 +185,35 @@ class _ReliefCampStockDetailState extends State<ReliefCampStockDetail> {
                       Text('Supplier',style: TextStyle(fontWeight: FontWeight.bold),),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(widget.reliefCampItem.suppliername.toString()),
-                      Text(widget.reliefCampItem.supplieremail.toString()),
-                      Text(widget.reliefCampItem.supplierphone.toString()),
+                  DataTable(
+                    columns: const <DataColumn>[
+                      DataColumn(
+                        label: Text(
+                          'Name',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Email',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Phone',
+                        ),
+                      ),
+                    ],
+                    rows: <DataRow>[
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text(widget.reliefCampItem.suppliername.toString(),overflow: TextOverflow.ellipsis,)),
+                          DataCell(Text('Email',style: TextStyle(color: container_color)),),
+                          DataCell(Text('Phone',style: TextStyle(color: container_color)),),
+                        ],
+                      ),
                     ],
                   )
+
                 ],
               ),
               SizedBox(height: height*0.02,),
@@ -207,13 +228,7 @@ class _ReliefCampStockDetailState extends State<ReliefCampStockDetail> {
                       Text('Description',style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      // SizedBox(width: width*0.04,),
-                      Text(widget.reliefCampItem.description.toString()),
-                    ],
-                  ),
+                  Text(widget.reliefCampItem.description.toString(),maxLines: 20),
                 ],
               ),
 
@@ -229,12 +244,9 @@ class _ReliefCampStockDetailState extends State<ReliefCampStockDetail> {
                       Text('Additional Notes',style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(widget.reliefCampItem.additionalNotes.toString()),
-                    ],
-                  ),
+
+                      Text(widget.reliefCampItem.additionalNotes.toString(),maxLines: 20),
+
                 ],
               ),
               UserProvider.userModel!.userRole == 'Resident' ||

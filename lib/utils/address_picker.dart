@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:smart_supply_chain_management_fyp/providers/add_grocery.dart';
 import 'package:smart_supply_chain_management_fyp/providers/add_grocery.dart';
 import 'package:smart_supply_chain_management_fyp/providers/add_grocery.dart';
+import 'package:smart_supply_chain_management_fyp/providers/requestedLocations.dart';
+import 'package:smart_supply_chain_management_fyp/providers/requestedLocations.dart';
+import 'package:smart_supply_chain_management_fyp/providers/requestedLocations.dart';
 
 import '../providers/add_camp.dart';
 import '../providers/add_medical.dart';
@@ -58,10 +61,14 @@ class _AddressPickerState extends State<AddressPicker> {
        Provider.of<AddReliefCampProvider>(context,listen:false).longitude=pickedData.latLong.longitude;
        Provider.of<AddReliefCampProvider>(context,listen:false).location=addressString;
      }
-            else{
+            if(widget.medicalOrGroceryOrCamp=='grocery'){
               Provider.of<AddGroceryProvider>(context,listen:false).latitude=pickedData.latLong.latitude;
               Provider.of<AddGroceryProvider>(context,listen:false).longitude=pickedData.latLong.longitude;
               Provider.of<AddGroceryProvider>(context,listen:false).location=addressString;
+            }
+            if(widget.medicalOrGroceryOrCamp=='request'){
+              Provider.of<RequestedLocationProvider>(context,listen:false).latitude=pickedData.latLong.latitude;
+              Provider.of<RequestedLocationProvider>(context,listen:false).longitude=pickedData.latLong.longitude;
             }
             Navigator.pop(context,);
           }

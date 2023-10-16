@@ -211,7 +211,7 @@ class _ResidentRequestedMedicalItemsDetailState extends State<ResidentRequestedM
                   setState(() {
                     isRemarksButtonLoading=false;
                   });
-                }, child: Text('Submit'))
+                }, child:isRemarksButtonLoading?Center(child: CircularProgressIndicator(),): Text('Submit'))
               ],)
         ]),
       ),

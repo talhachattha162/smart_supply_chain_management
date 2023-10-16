@@ -235,6 +235,9 @@ class _MedicalRequestedItemsDetailState extends State<MedicalRequestedItemsDetai
             ],
           )
               :
+          widget.requestedMedicalItem.remarks==''?
+          Center(child: Text('Remarks not added '+widget.requestedMedicalItem.remarks.toString()),)
+              :
               Center(child: Text('Remarks: '+widget.requestedMedicalItem.remarks.toString()),)
         ]),
       ),

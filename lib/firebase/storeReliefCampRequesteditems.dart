@@ -33,7 +33,7 @@ class RequestedReliefCampItemService {
     await _collectionReference.doc(id).delete();
   }
 
-  Future<List<RequestedReliefCampItem>> getAllRequestedReliefCampItems() async {
+  Future<List<RequestedReliefCampItem>> getAllRequestedReliefCampItems(String campId) async {
     final QuerySnapshot querySnapshot = await _collectionReference.get();
 
     List<RequestedReliefCampItem> requestedItems = [];
@@ -43,7 +43,7 @@ class RequestedReliefCampItemService {
       RequestedReliefCampItem.fromMap(docSnapshot.data() as Map<String, dynamic>);
       requestedItems.add(requestedItem);
     }
-
+    requestedItems=requestedItems.where((element) => element.reliefCampItems[0].campId==campId).toList();
     return requestedItems;
   }
 

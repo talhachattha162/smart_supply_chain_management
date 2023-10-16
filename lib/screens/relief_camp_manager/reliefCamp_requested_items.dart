@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/medical_item.dart';
 import 'package:smart_supply_chain_management_fyp/models/medical_item.dart';
+import 'package:smart_supply_chain_management_fyp/providers/relief_Camp.dart';
 import 'package:smart_supply_chain_management_fyp/screens/medical_manager/medical_stock_item_detail.dart';
 import 'package:smart_supply_chain_management_fyp/screens/medical_manager/medical_requested_items_detail.dart';
 import 'package:smart_supply_chain_management_fyp/screens/relief_camp_manager/reliefCamp_requested_items_detail.dart';
@@ -34,7 +35,7 @@ class _ReliefCampRequestedItemsState extends State<ReliefCampRequestedItems> {
 
   getRequestedReliefCampItems() async {
     RequestedReliefCampItemService requestedReliefCampItemService = RequestedReliefCampItemService();
-    requestedReliefCampItems = await requestedReliefCampItemService.getAllRequestedReliefCampItems();
+    requestedReliefCampItems = await requestedReliefCampItemService.getAllRequestedReliefCampItems(ReliefCampProvider.reliefCamp!.id);
     filteredrequestedReliefCampItems = List.from(requestedReliefCampItems);
     isLoading = false;
     setState(() {});

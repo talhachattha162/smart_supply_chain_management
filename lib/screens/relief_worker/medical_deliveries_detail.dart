@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/relief_Worker.dart';
 
 import '../../models/requestedMedicalItem.dart';
+import 'medicalDeliveriesMap.dart';
 
 class MedicalDeliveriesDetail extends StatefulWidget {
   final RequestedMedicalItem requestedMedicalItems;
@@ -25,7 +28,7 @@ TextEditingController recievedBy=TextEditingController();
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(children: [
-          SizedBox(height: height*0.55,
+          SizedBox(height: height*0.5,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: ListView.builder(
@@ -121,6 +124,53 @@ TextEditingController recievedBy=TextEditingController();
                 },),
             ),
           ),
+          SizedBox(
+            height: height*0.2,
+            child: Stack(
+              children: [
+                FlutterMap(
+                  options: MapOptions(center: LatLng(widget.requestedMedicalItems.deliveryLatitude, widget.requestedMedicalItems.deliveryLongitude)),
+                  children: <Widget>[
+                    TileLayer(
+                      urlTemplate:
+                      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      subdomains: const ['a', 'b', 'c'],
+                    ),
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          width: 80.0,
+                          height: 80.0,
+                          point: LatLng(widget.requestedMedicalItems.deliveryLatitude, widget.requestedMedicalItems.deliveryLongitude),
+                          builder: (ctx) => Container(
+                            child: Icon(
+                              Icons.location_pin,
+                              color: Colors.blue,
+                              size: 40.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  ],
+
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ElevatedButton(onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DeliveryMap(destinationPosition:LatLng(widget.requestedMedicalItems.deliveryLatitude, widget.requestedMedicalItems.deliveryLongitude) ),));
+
+                    }, child: Center(child: Text('Click here to see navigation'))),
+                  ],
+                ),
+
+              ],
+            ),
+          ),
+
           widget.requestedMedicalItems.Recievedby!=''?
           Center(child: Text(widget.requestedMedicalItems.Recievedby.toString()),)
               :

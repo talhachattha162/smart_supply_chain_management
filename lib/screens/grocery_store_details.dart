@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/firebase_user.dart';
 import 'package:smart_supply_chain_management_fyp/providers/grocerystore.dart';
 import 'package:smart_supply_chain_management_fyp/utils/theme.dart';
@@ -8,7 +9,9 @@ import '../models/grocery_store.dart';
 import '../models/requestedGroceryItem.dart';
 import '../models/user.dart';
 import '../providers/groceryItems.dart';
+import '../providers/requestedLocations.dart';
 import '../providers/user.dart';
+import '../utils/address_picker.dart';
 import 'grocery_store_manager/grocery_stock.dart';
 
 class GroceryStoreDetails extends StatelessWidget {
@@ -416,39 +419,54 @@ final appbar;
                       ),
                     ),
                     actions: [
+                      TextButton(onPressed: () async {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddressPicker(medicalOrGroceryOrCamp: 'request'),));
+                      }, child: Container(width:width,child: Center(child: Text('Pick Location')))),
                       TextButton(
                         onPressed: () async {
-                          setState(() {
-                            isLoadingForRequest = true;
-                          });
-                          GroceryItemService groceryItemService = GroceryItemService();
-                          for (int i = 0; i <
-                              GroceryStoreItemProvider.groceryStoreItems.length; i++) {
-                            await groceryItemService.updateGroceryItem(
-                                GroceryStoreItemProvider.groceryStoreItems[i].id,
+                          if(Provider.of<RequestedLocationProvider>(context,listen:false).latitude!=0.0 && Provider.of<RequestedLocationProvider>(context,listen:false).latitude!=0.0)
+                            {
+                              setState(() {
+                                isLoadingForRequest = true;
+                              });
+                              GroceryItemService groceryItemService = GroceryItemService();
+                              for (int i = 0; i <
+                                  GroceryStoreItemProvider.groceryStoreItems.length; i++) {
+                                await groceryItemService.updateGroceryItem(
+                                    GroceryStoreItemProvider.groceryStoreItems[i].id,
+                                    GroceryStoreItemProvider.groceryStoreItems[i]
+                                        .quantityInStock! - quantities[i]);
                                 GroceryStoreItemProvider.groceryStoreItems[i]
-                                    .quantityInStock! - quantities[i]);
-                            GroceryStoreItemProvider.groceryStoreItems[i]
-                                .quantityInStock = quantities[i];
+                                    .quantityInStock = quantities[i];
+                              }
+                              quantities.clear();
+                              RequestedGroceryItemService requestGroceryItemService = RequestedGroceryItemService();
+                              RequestedGroceryItem requestedGroceryItem = RequestedGroceryItem(
+                                  id: '',
+                                  groceryItems: GroceryStoreItemProvider.groceryStoreItems,
+                                  resident: UserProvider.userModel,
+                                  status: 'pending',
+                                  remarks: '',
+                                  Recievedby: '',
+                                  deliveryLatitude: Provider.of<RequestedLocationProvider>(context,listen:false).latitude,
+                                  deliveryLongitude: Provider.of<RequestedLocationProvider>(context,listen:false).longitude
+
+                              );
+                              await requestGroceryItemService
+                                  .createRequestedGroceryItem(
+                                  requestedGroceryItem);
+                              GroceryStoreItemProvider.groceryStoreItems?.clear();
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Request Added')));
+                              setState(() {
+                                isLoadingForRequest = false;
+                              });
+                              Provider.of<RequestedLocationProvider>(context,listen:false).latitude=0.0;
+                              Provider.of<RequestedLocationProvider>(context,listen:false).longitude=0.0;
+                              Navigator.pop(context);
+                            }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pick Location to deliver')));
                           }
-                          quantities.clear();
-                          RequestedGroceryItemService requestGroceryItemService = RequestedGroceryItemService();
-                          RequestedGroceryItem requestedGroceryItem = RequestedGroceryItem(
-                              id: '',
-                              groceryItems: GroceryStoreItemProvider.groceryStoreItems,
-                              resident: UserProvider.userModel,
-                              status: 'pending',
-                              remarks: '',
-                            Recievedby: ''
-                          );
-                          await requestGroceryItemService
-                              .createRequestedGroceryItem(
-                              requestedGroceryItem);
-                          GroceryStoreItemProvider.groceryStoreItems?.clear();
-                          setState(() {
-                            isLoadingForRequest = false;
-                          });
-                          Navigator.pop(context);
                         },
                         child: isLoadingForRequest ? Center(
                             child: CircularProgressIndicator()) : Text(
@@ -457,6 +475,8 @@ final appbar;
                       TextButton(
                         onPressed: () {
                           GroceryStoreItemProvider.groceryStoreItems?.clear();
+                          Provider.of<RequestedLocationProvider>(context,listen:false).latitude=0.0;
+                          Provider.of<RequestedLocationProvider>(context,listen:false).longitude=0.0;
                           Navigator.pop(context);
                         },
                         child: Text('Close'),

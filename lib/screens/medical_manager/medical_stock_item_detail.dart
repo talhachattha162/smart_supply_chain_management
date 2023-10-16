@@ -183,12 +183,32 @@ class _MedicalStockDetailState extends State<MedicalStockDetail> {
                       Text('Supplier',style: TextStyle(fontWeight: FontWeight.bold),),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(widget.medicalItem.suppliername.toString()),
-                      Text(widget.medicalItem.supplieremail.toString()),
-                      Text(widget.medicalItem.supplierphone.toString()),
+                  DataTable(
+                    columns: const <DataColumn>[
+                      DataColumn(
+                        label: Text(
+                          'Name',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Email',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Phone',
+                        ),
+                      ),
+                    ],
+                    rows: <DataRow>[
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text(widget.medicalItem.suppliername.toString(),overflow: TextOverflow.ellipsis,)),
+                          DataCell(Text('Email',style: TextStyle(color: container_color)),),
+                          DataCell(Text('Phone',style: TextStyle(color: container_color)),),
+                        ],
+                      ),
                     ],
                   )
                 ],
@@ -205,13 +225,7 @@ class _MedicalStockDetailState extends State<MedicalStockDetail> {
                       Text('Description',style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      // SizedBox(width: width*0.04,),
-                      Text(widget.medicalItem.description.toString()),
-                    ],
-                  ),
+                  Text(widget.medicalItem.description.toString(),maxLines: 20),
                 ],
               ),
 
@@ -227,12 +241,7 @@ class _MedicalStockDetailState extends State<MedicalStockDetail> {
                       Text('Additional Notes',style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(widget.medicalItem.additionalNotes.toString()),
-                    ],
-                  ),
+                  Text(widget.medicalItem.additionalNotes.toString(),maxLines: 20),
                 ],
               ),
               UserProvider.userModel!.userRole == 'Resident'

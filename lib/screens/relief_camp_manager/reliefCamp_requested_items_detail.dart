@@ -237,6 +237,9 @@ class _ReliefCampRequestedItemsDetailState extends State<ReliefCampRequestedItem
             ],
           )
               :
+          widget.requestedReliefCampItem.remarks==''?
+          Center(child: Text('Remarks not added '),)
+              :
               Center(child: Text('Remarks: '+widget.requestedReliefCampItem.remarks.toString()),)
         ]),
       ),

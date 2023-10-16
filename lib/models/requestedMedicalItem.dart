@@ -10,6 +10,8 @@ class RequestedMedicalItem {
   String? status;
   String? remarks;
   String? Recievedby;
+  double deliveryLatitude;
+  double deliveryLongitude;
 
   RequestedMedicalItem({
     required this.id,
@@ -18,6 +20,8 @@ class RequestedMedicalItem {
     required this.status,
     required this.remarks,
     required this.Recievedby,
+    required this.deliveryLongitude,
+    required this.deliveryLatitude,
     this.assignedReliefWorker,
   });
 
@@ -29,12 +33,14 @@ class RequestedMedicalItem {
       'status':status,
       'remarks':remarks,
       'Recievedby':Recievedby,
+      'deliveryLongitude':deliveryLongitude,
+      'deliveryLatitude':deliveryLatitude,
       'assignedReliefWorker': assignedReliefWorker?.toMap(),
     };
   }
 
   factory RequestedMedicalItem.fromMap(Map<String, dynamic>? map) {
-    if (map == null) return RequestedMedicalItem(id: '', medicalItems: [], resident: null,status: '',remarks: '',Recievedby: ''); // Return a default instance or handle this case accordingly
+    if (map == null) return RequestedMedicalItem(id: '', medicalItems: [], resident: null,status: '',remarks: '',Recievedby: '',deliveryLongitude: 0,deliveryLatitude: 0); // Return a default instance or handle this case accordingly
 
     return RequestedMedicalItem(
       id: map['id'] ?? '',
@@ -52,6 +58,12 @@ class RequestedMedicalItem {
           : null,
       Recievedby: map['Recievedby'] != null
           ? map['Recievedby']
+          : null,
+      deliveryLongitude: map['deliveryLongitude'] != null
+          ? map['deliveryLongitude']
+          : null,
+      deliveryLatitude: map['deliveryLatitude'] != null
+          ? map['deliveryLatitude']
           : null,
       assignedReliefWorker: map['assignedReliefWorker'] != null
           ? UserModel.fromMap(map['assignedReliefWorker'] as Map<String, dynamic>)

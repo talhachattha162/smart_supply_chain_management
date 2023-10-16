@@ -10,6 +10,7 @@ import 'package:smart_supply_chain_management_fyp/screens/resident/resident_requ
 import '../../firebase/firebase_auth.dart';
 import '../../providers/user.dart';
 import '../../utils/theme.dart';
+import 'crowdsourcing.dart';
 import 'nearestGroceryStores.dart';
 
 class ResidentMain extends StatelessWidget {
@@ -281,7 +282,15 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => NearestGrocerySt
               onTap: () {
                 // Handle navigation to the settings page
               },
-            ),ListTile(
+            ),
+            ListTile(
+              leading: Icon(Icons.trending_up),
+              title: Text('Trends'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Trends(),));
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout'),
               onTap: () async {

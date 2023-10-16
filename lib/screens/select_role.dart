@@ -67,6 +67,21 @@ class SelectRole extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: height*0.08,),
+            InkWell(
+              onTap: () {
+                Provider.of<SignupRoleProvider>(context,listen: false).selectedRole='Donor';
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SignupScreen(),));
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CircleAvatar(child: Image.asset('lib/assets/imgs/worker.png',width: width*0.125,),radius: 30),
+                  Text('Donor'),
+                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Colors.blue[50],borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
+                ],
+              ),
+            ),
 
           ],
     ),

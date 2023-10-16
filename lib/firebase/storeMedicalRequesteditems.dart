@@ -32,7 +32,7 @@ class RequestedMedicalItemService {
     await _collectionReference.doc(id).delete();
   }
 
-  Future<List<RequestedMedicalItem>> getAllRequestedMedicalItems() async {
+  Future<List<RequestedMedicalItem>> getAllRequestedMedicalItems(String medicalId) async {
     final QuerySnapshot querySnapshot = await _collectionReference.get();
 
     List<RequestedMedicalItem> requestedItems = [];
@@ -42,6 +42,7 @@ class RequestedMedicalItemService {
       RequestedMedicalItem.fromMap(docSnapshot.data() as Map<String, dynamic>);
       requestedItems.add(requestedItem);
     }
+    requestedItems=requestedItems.where((element) => element.medicalItems[0].hospitalId==medicalId).toList();
 
     return requestedItems;
   }

@@ -63,10 +63,7 @@ return GroceryApproved;
                           DataCell(
                               PopupMenuButton(itemBuilder: (context) {
                                 return <PopupMenuEntry<String>>[
-                                  PopupMenuItem<String>(
-                                    value: 'Update',
-                                    child: Text('Update'),
-                                  ),
+
                                   PopupMenuItem<String>(
                                     value: 'Details',
                                     child: Text('Details'),
@@ -75,9 +72,7 @@ return GroceryApproved;
                               },
                                   onSelected: (String value) {
                                     switch (value) {
-                                      case 'Update':
-// Handle Option 1
-                                        break;
+
                                       case 'Details':
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => GroceryStoreDetails(groceryStore: groceryStore,appbar:true),));
                                         break;

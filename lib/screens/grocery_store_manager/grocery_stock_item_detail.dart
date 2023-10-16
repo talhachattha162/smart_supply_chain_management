@@ -183,14 +183,35 @@ class _GroceryStockDetailState extends State<GroceryStockDetail> {
                       Text('Supplier',style: TextStyle(fontWeight: FontWeight.bold),),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(widget.groceryItem.suppliername.toString()),
-                      Text(widget.groceryItem.supplieremail.toString()),
-                      Text(widget.groceryItem.supplierphone.toString()),
+                  DataTable(
+                    columns: const <DataColumn>[
+                      DataColumn(
+                        label: Text(
+                          'Name',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Email',
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Phone',
+                        ),
+                      ),
+                    ],
+                    rows: <DataRow>[
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text(widget.groceryItem.suppliername.toString(),overflow: TextOverflow.ellipsis,)),
+                          DataCell(Text('Email',style: TextStyle(color: container_color)),),
+                          DataCell(Text('Phone',style: TextStyle(color: container_color)),),
+                        ],
+                      ),
                     ],
                   )
+
                 ],
               ),
               SizedBox(height: height*0.02,),
@@ -205,13 +226,7 @@ class _GroceryStockDetailState extends State<GroceryStockDetail> {
                       Text('Description',style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      // SizedBox(width: width*0.04,),
-                      Text(widget.groceryItem.description.toString()),
-                    ],
-                  ),
+                  Text(widget.groceryItem.description.toString(),maxLines: 20),
                 ],
               ),
 
@@ -227,12 +242,7 @@ class _GroceryStockDetailState extends State<GroceryStockDetail> {
                       Text('Additional Notes',style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(widget.groceryItem.additionalNotes.toString()),
-                    ],
-                  ),
+                  Text(widget.groceryItem.additionalNotes.toString(),maxLines: 20,),
                 ],
               ),
               UserProvider.userModel!.userRole == 'Resident'

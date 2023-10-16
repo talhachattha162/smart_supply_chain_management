@@ -211,7 +211,7 @@ class _MedicalManagerRequestedReliefCampItemsDetailState extends State<MedicalMa
               setState(() {
                 isRemarksButtonLoading=false;
               });
-            }, child: Text('Submit'))
+            }, child: isRemarksButtonLoading?Center(child: CircularProgressIndicator(),):Text('Submit'))
           ],)
         ]),
       ),

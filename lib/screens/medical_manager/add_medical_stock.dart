@@ -356,6 +356,7 @@ isLoading=true;
           additionalNotes: additionalNotes);
      await medicalItemService.addMedicalItem(medicalItem);
       isLoading = false;
+      Navigator.pop(context);
       setState(() {});
     }
   }

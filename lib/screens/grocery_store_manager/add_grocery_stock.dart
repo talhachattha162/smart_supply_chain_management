@@ -303,7 +303,36 @@ class _AddGroceryStockState extends State<AddGroceryStock> {
                 ),
                 // Submit Button
                 ElevatedButton(
-                  onPressed: _submitForm,
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      isLoading=true;
+                      setState(() {
+
+                      });
+                      GroceryItemService groceryItemService = GroceryItemService();
+                      GroceryItem groceryItem = GroceryItem(
+                          id: '',
+                          shopId: GroceryStoreProvider.groceryStore!.id,
+                          itemName: itemName,
+                          brand: brand,
+                          description: description,
+                          unitOfMeasurement: unitOfMeasurement,
+                          quantityInStock: quantityInStock,
+                          reorderLevel: reorderLevel,
+                          suppliername: supplierContactName,
+                          supplierphone: supplierContactPhone,
+                          supplieremail: supplierContactEmail,
+                          shelfLocation: shelfLocation,
+                          stockStatus: stockStatus,
+                          expirationDate: expirationDate,
+                          additionalNotes: additionalNotes);
+                      await groceryItemService.addGroceryItem(groceryItem);
+                      isLoading = false;
+                      Navigator.pop(context);
+                      setState(() {});
+                    }
+                  },
                   child: isLoading?
                   CircularProgressIndicator()
                       :
@@ -332,34 +361,5 @@ class _AddGroceryStockState extends State<AddGroceryStock> {
   }
 
 
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      print('talha');
-      _formKey.currentState!.save();
-isLoading=true;
-      setState(() {
 
-});
-      GroceryItemService groceryItemService = GroceryItemService();
-      GroceryItem groceryItem = GroceryItem(
-          id: '',
-          shopId: GroceryStoreProvider.groceryStore!.id,
-          itemName: itemName,
-          brand: brand,
-          description: description,
-          unitOfMeasurement: unitOfMeasurement,
-          quantityInStock: quantityInStock,
-          reorderLevel: reorderLevel,
-          suppliername: supplierContactName,
-          supplierphone: supplierContactPhone,
-          supplieremail: supplierContactEmail,
-          shelfLocation: shelfLocation,
-          stockStatus: stockStatus,
-          expirationDate: expirationDate,
-          additionalNotes: additionalNotes);
-     await groceryItemService.addGroceryItem(groceryItem);
-      isLoading = false;
-      setState(() {});
-    }
-  }
 }

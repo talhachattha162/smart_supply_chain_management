@@ -409,7 +409,6 @@ class _GroceryStoreFormState extends State<GroceryStoreForm> {
                 height: height * 0.03,
               ),
               SizedBox(
-                width: width*0.8,
                 child: ElevatedButton(
                   onPressed:  () async {
                     if (_formKey.currentState!.validate()) {
@@ -460,8 +459,8 @@ class _GroceryStoreFormState extends State<GroceryStoreForm> {
                   child: Selector<AddGroceryProvider,bool>(
                     selector: (p0, p1) => p1.isLoading,
                     builder: (context, isLoading, child) =>   Center(
-                        child:isLoading?CircularProgressIndicator(color: Colors.white,): Text('Submit',
-                            style: TextStyle(color: Colors.white))),
+                        child:isLoading?CircularProgressIndicator(color: container_color): Text('Submit',
+                            style: TextStyle(color: container_color))),
                   ),
                 ),
               ),

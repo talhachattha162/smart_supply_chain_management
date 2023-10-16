@@ -32,7 +32,7 @@ class _MedicalRequestedItemsState extends State<MedicalRequestedItems> {
 
   getRequestedMedicalItems() async {
     RequestedMedicalItemService requestedMedicalItemService = RequestedMedicalItemService();
-    requestedMedicalItems = await requestedMedicalItemService.getAllRequestedMedicalItems();
+    requestedMedicalItems = await requestedMedicalItemService.getAllRequestedMedicalItems(MedicalFacilityProvider.medicalFacility!.id);
     filteredrequestedMedicalItems = List.from(requestedMedicalItems);
     isLoading = false;
     setState(() {});

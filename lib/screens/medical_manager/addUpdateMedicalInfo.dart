@@ -468,7 +468,6 @@ print(medicalFacility.toMap());
               ),
 
               SizedBox(
-                width: width*0.8,
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -488,8 +487,8 @@ print(medicalFacility.toMap());
                   child: Selector<AddMedicalProvider,bool>(
                     selector: (p0, p1) => p1.isLoading,
                     builder: (context, isLoading, child) =>  Center(
-                        child: isLoading?CircularProgressIndicator(color: Colors.white,):Text('Submit',
-                            style: TextStyle(color: Colors.white))),
+                        child: isLoading?CircularProgressIndicator(color: container_color):Text('Submit',
+                            style: TextStyle(color: container_color))),
                   ),
                 ),
               ),

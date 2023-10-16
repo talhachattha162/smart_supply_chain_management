@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/firebase_user.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/medical_item.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/storeMedicalRequesteditems.dart';
@@ -10,7 +11,9 @@ import 'package:smart_supply_chain_management_fyp/utils/theme.dart';
 import '../models/medical_facility.dart';
 import '../models/user.dart';
 import '../providers/medicalItems.dart';
+import '../providers/requestedLocations.dart';
 import '../providers/user.dart';
+import '../utils/address_picker.dart';
 import 'medical_manager/medical_stock.dart';
 
 class MedicalFacilityDetails extends StatefulWidget {
@@ -425,39 +428,65 @@ return userModel;
                        ),
                      ),
                      actions: [
+                       TextButton(onPressed: () async {
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => AddressPicker(medicalOrGroceryOrCamp: 'request'),));
+                       }, child: Container(width:width,child: Center(child: Text('Pick Location')))),
+
                        TextButton(
                          onPressed: () async {
-                           setState(() {
-                             isLoadingForRequest = true;
-                           });
-                           MedicalItemService medicalItemService = MedicalItemService();
-                           for (int i = 0; i <
-                               MedicalItemProvider.medicalItems.length; i++) {
-                             await medicalItemService.updateMedicalItem(
-                                 MedicalItemProvider.medicalItems[i].id,
-                                 MedicalItemProvider.medicalItems[i]
-                                     .quantityInStock! - quantities[i]);
-                             MedicalItemProvider.medicalItems[i]
-                                 .quantityInStock = quantities[i];
+                   if(Provider.of<RequestedLocationProvider>(context,listen:false).latitude!=0.0 && Provider.of<RequestedLocationProvider>(context,listen:false).latitude!=0.0) {
+                     setState(() {
+                       isLoadingForRequest = true;
+                     });
+                     MedicalItemService medicalItemService = MedicalItemService();
+                     for (int i = 0; i <
+                         MedicalItemProvider.medicalItems.length; i++) {
+                       await medicalItemService.updateMedicalItem(
+                           MedicalItemProvider.medicalItems[i].id,
+                           MedicalItemProvider.medicalItems[i]
+                               .quantityInStock! - quantities[i]);
+                       MedicalItemProvider.medicalItems[i]
+                           .quantityInStock = quantities[i];
+                     }
+                     quantities.clear();
+                     RequestedMedicalItemService requestMedicalItemService = RequestedMedicalItemService();
+                     RequestedMedicalItem requestedMedicalItem = RequestedMedicalItem(
+                         id: '',
+                         medicalItems: MedicalItemProvider.medicalItems,
+                         resident: UserProvider.userModel,
+                         status: 'pending',
+                         remarks: '',
+                         Recievedby: '',
+                         deliveryLatitude: Provider
+                             .of<RequestedLocationProvider>(
+                             context, listen: false)
+                             .latitude,
+                         deliveryLongitude: Provider
+                             .of<RequestedLocationProvider>(
+                             context, listen: false)
+                             .longitude
+
+                     );
+                     await requestMedicalItemService
+                         .createRequestedMedicalItem(
+                         requestedMedicalItem);
+                     MedicalItemProvider.medicalItems.clear();
+                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                         content: SnackBar(content: Text('Request Added'))));
+                     setState(() {
+                       isLoadingForRequest = false;
+                     });
+                     Provider
+                         .of<RequestedLocationProvider>(context, listen: false)
+                         .latitude = 0.0;
+                     Provider
+                         .of<RequestedLocationProvider>(context, listen: false)
+                         .longitude = 0.0;
+                     Navigator.pop(context);
+                   }
+                           else{
+                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pick Location to deliver')));
                            }
-                           quantities.clear();
-                           RequestedMedicalItemService requestMedicalItemService = RequestedMedicalItemService();
-                           RequestedMedicalItem requestedMedicalItem = RequestedMedicalItem(
-                               id: '',
-                               medicalItems: MedicalItemProvider.medicalItems,
-                               resident: UserProvider.userModel,
-                           status: 'pending',
-                             remarks: '',
-                             Recievedby: ''
-                           );
-                           await requestMedicalItemService
-                               .createRequestedMedicalItem(
-                               requestedMedicalItem);
-                           MedicalItemProvider.medicalItems.clear();
-                           setState(() {
-                             isLoadingForRequest = false;
-                           });
-                           Navigator.pop(context);
                          },
                          child: isLoadingForRequest ? Center(
                              child: CircularProgressIndicator()) : Text(
@@ -466,6 +495,8 @@ return userModel;
                        TextButton(
                          onPressed: () {
                            MedicalItemProvider.medicalItems.clear();
+                           Provider.of<RequestedLocationProvider>(context,listen:false).latitude=0.0;
+                           Provider.of<RequestedLocationProvider>(context,listen:false).longitude=0.0;
                            Navigator.pop(context);
                          },
                          child: Text('Close'),

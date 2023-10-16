@@ -26,4 +26,6 @@ class MedicalItemService {
     return querySnapshot.docs.map((doc) => MedicalItem.fromMap(doc.data() as Map<String, dynamic>)).toList();
   }
 
+
+
 }

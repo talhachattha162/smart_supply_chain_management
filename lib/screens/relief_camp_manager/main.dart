@@ -13,6 +13,7 @@ import '../../main.dart';
 import '../../models/user.dart';
 import '../../providers/user.dart';
 import '../../utils/theme.dart';
+import 'approveOrDenyDonations.dart';
 
 class ReliefCampManagerMain extends StatefulWidget {
   const ReliefCampManagerMain({super.key});
@@ -144,7 +145,47 @@ class _ReliefCampManagerMainState extends State<ReliefCampManagerMain> {
               ),
 
             ]
-            ,)
+            ,),
+          SizedBox(height: height*0.02,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>       ApproveAndDenyDonation(),));
+                  },
+                  child:
+                  Container(
+                    width: width * 0.47,
+                    height: height * 0.25,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey,
+                            blurRadius: 15,
+                            offset: Offset(4, 8), // Shadow position
+                          ),
+                        ],
+                        color: container_color,
+                        border: Border.all(color: container_border, width: 1),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset('lib/assets/imgs/camp-pic.jpg',fit: BoxFit.fill,height: height*0.15),
+                        SizedBox(height: height*0.01,),
+                        Text('Donations',
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18)),
+                      ],
+                    ),
+                  )
+              ),
+
+            ]
+            ,),
         ],
       )
           :

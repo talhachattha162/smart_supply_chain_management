@@ -308,7 +308,37 @@ class _AddReliefCampStockState extends State<AddReliefCampStock> {
                 ),
                 // Submit Button
                 ElevatedButton(
-                  onPressed: _submitForm,
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+
+                      _formKey.currentState!.save();
+                      isLoading=true;
+                      setState(() {
+
+                      });
+                      ReliefCampItemService reliefCampItemService = ReliefCampItemService();
+                      ReliefCampItem reliefCampItem = ReliefCampItem(
+                          id: '',
+                          campId: ReliefCampProvider.reliefCamp!.id,
+                          itemName: itemName,
+                          brand: brand,
+                          description: description,
+                          unitOfMeasurement: unitOfMeasurement,
+                          quantityInStock: quantityInStock,
+                          reorderLevel: reorderLevel,
+                          suppliername: supplierContactName,
+                          supplierphone: supplierContactPhone,
+                          supplieremail: supplierContactEmail,
+                          shelfLocation: shelfLocation,
+                          stockStatus: stockStatus,
+                          expirationDate: expirationDate,
+                          additionalNotes: additionalNotes);
+                      await reliefCampItemService.addReliefCampItem(reliefCampItem);
+                      isLoading = false;
+                      Navigator.pop(context);
+                      setState(() {});
+                    }
+                  },
                   child: isLoading?
                   CircularProgressIndicator()
                       :
@@ -337,34 +367,4 @@ class _AddReliefCampStockState extends State<AddReliefCampStock> {
   }
 
 
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-
-      _formKey.currentState!.save();
-isLoading=true;
-      setState(() {
-
-});
-      ReliefCampItemService reliefCampItemService = ReliefCampItemService();
-      ReliefCampItem reliefCampItem = ReliefCampItem(
-          id: '',
-          campId: ReliefCampProvider.reliefCamp!.id,
-          itemName: itemName,
-          brand: brand,
-          description: description,
-          unitOfMeasurement: unitOfMeasurement,
-          quantityInStock: quantityInStock,
-          reorderLevel: reorderLevel,
-          suppliername: supplierContactName,
-          supplierphone: supplierContactPhone,
-          supplieremail: supplierContactEmail,
-          shelfLocation: shelfLocation,
-          stockStatus: stockStatus,
-          expirationDate: expirationDate,
-          additionalNotes: additionalNotes);
-     await reliefCampItemService.addReliefCampItem(reliefCampItem);
-      isLoading = false;
-      setState(() {});
-    }
-  }
 }

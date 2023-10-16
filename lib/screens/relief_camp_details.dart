@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/firebase_user.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/reliefCamp_item.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/storeReliefCampRequesteditems.dart';
@@ -9,7 +10,10 @@ import 'package:smart_supply_chain_management_fyp/screens/relief_camp_manager/re
 import 'package:smart_supply_chain_management_fyp/utils/theme.dart';
 import '../../models/user.dart';
 import '../providers/relief_Camp_item.dart';
+import '../providers/requestedLocations.dart';
 import '../providers/user.dart';
+import '../utils/address_picker.dart';
+import 'donor/add_donation.dart';
 
 class ReliefCampDetails extends StatelessWidget {
   final ReliefCamp? reliefCamp;
@@ -224,7 +228,16 @@ final appbar;
             ),
           ),
         ),
-        floatingActionButton:FloatingActionButton(onPressed: () async {
+        floatingActionButton:
+        UserProvider.userModel!.userRole=='Donor'
+            ?
+        FloatingActionButton(
+            onPressed: () async {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AddDonation(),));
+            },
+            child: Icon(Icons.add))
+            :
+        FloatingActionButton(onPressed: () async {
           ReliefCampProvider.reliefCamp=reliefCamp;
           await Navigator.push(context, MaterialPageRoute(builder: (context) => ReliefCampStock(),));
           // MedicalFacilityProvider.medicalFacility=null;
@@ -296,9 +309,14 @@ final appbar;
                           ),
                         ),
                         actions: [
+                          TextButton(onPressed: () async {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AddressPicker(medicalOrGroceryOrCamp: 'request'),));
+                          }, child: Container(width:width,child: Center(child: Text('Pick Location')))),
+
                           TextButton(
                             onPressed: () async {
-                              setState(() {
+                              if(Provider.of<RequestedLocationProvider>(context,listen:false).latitude !=0.0 && Provider.of<RequestedLocationProvider>(context,listen:false).latitude!=0.0) {
+                                setState(() {
                                 isLoadingForRequest = true;
                               });
                               ReliefCampItemService reliefCampItemService = ReliefCampItemService();
@@ -319,16 +337,36 @@ final appbar;
                                   resident: UserProvider.userModel,
                                   status: 'pending',
                                   remarks: '',
-                                Recievedby: ''
+                                Recievedby: '',
+                                  deliveryLatitude: Provider
+                                      .of<RequestedLocationProvider>(
+                                      context, listen: false)
+                                      .latitude,
+                                  deliveryLongitude: Provider
+                                      .of<RequestedLocationProvider>(
+                                      context, listen: false)
+                                      .longitude
+
                               );
                               await requestReliefCampItemService
                                   .createRequestedReliefCampItem(
                                   requestedReliefCampItem);
                               ReliefCampItemProvider.reliefCampItems.clear();
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Request Added')));
                               setState(() {
                                 isLoadingForRequest = false;
                               });
+                              Provider
+                                  .of<RequestedLocationProvider>(context, listen: false)
+                                  .latitude = 0.0;
+                              Provider
+                                  .of<RequestedLocationProvider>(context, listen: false)
+                                  .longitude = 0.0;
                               Navigator.pop(context);
+                      }
+                      else{
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pick Location to deliver')));
+                      }
                             },
                             child: isLoadingForRequest ? Center(
                                 child: CircularProgressIndicator()) : Text(
@@ -337,6 +375,8 @@ final appbar;
                           TextButton(
                             onPressed: () {
                               ReliefCampItemProvider.reliefCampItems.clear();
+                              Provider.of<RequestedLocationProvider>(context,listen:false).latitude=0.0;
+                              Provider.of<RequestedLocationProvider>(context,listen:false).longitude=0.0;
                               Navigator.pop(context);
                             },
                             child: Text('Close'),

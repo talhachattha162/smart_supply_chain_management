@@ -18,6 +18,7 @@ import '../providers/login.dart';
 import '../providers/selectrole.dart';
 import '../providers/user.dart';
 import '../utils/theme.dart';
+import 'donor/main.dart';
 import 'medical_manager/main.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -84,11 +85,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             builder: (context) => ReliefCampManagerMain(),
           ),
         );
-      } else if (UserProvider.userModel!.userRole == 'Relief Worker') {
+      }
+      else if (UserProvider.userModel!.userRole == 'Relief Worker') {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => ReliefWorkerMain(),
+          ),
+        );
+      }
+      else if (UserProvider.userModel!.userRole == 'Donor') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DonorMain(),
           ),
         );
       }
@@ -149,7 +159,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     InkWell(onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => SelectRole(),));
                     },
-                      child: const Center(child: Text('Signup',style:TextStyle(color:button_color,fontWeight: FontWeight.bold))),
+                      child: Container(height:height*0.07,
+
+                          child: Text('Signup',style:TextStyle(color:button_color,fontWeight: FontWeight.bold))),
                     ),
 
                   ],),

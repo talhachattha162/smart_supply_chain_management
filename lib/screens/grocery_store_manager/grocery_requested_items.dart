@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_supply_chain_management_fyp/firebase/medical_item.dart';
 import 'package:smart_supply_chain_management_fyp/models/medical_item.dart';
+import 'package:smart_supply_chain_management_fyp/providers/grocerystore.dart';
 import 'package:smart_supply_chain_management_fyp/screens/medical_manager/medical_stock_item_detail.dart';
 import 'package:smart_supply_chain_management_fyp/screens/medical_manager/medical_requested_items_detail.dart';
 
@@ -35,7 +36,7 @@ class _GroceryRequestedItemsState extends State<GroceryRequestedItems> {
 
   getRequestedGroceryItems() async {
     RequestedGroceryItemService requestedGroceryItemService = RequestedGroceryItemService();
-    requestedGroceryItems = await requestedGroceryItemService.getAllRequestedGroceryItems();
+    requestedGroceryItems = await requestedGroceryItemService.getAllRequestedGroceryItems(GroceryStoreProvider.groceryStore!.id);
     filteredrequestedGroceryItems = List.from(requestedGroceryItems);
     isLoading = false;
     setState(() {});

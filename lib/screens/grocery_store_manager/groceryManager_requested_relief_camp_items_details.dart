@@ -211,7 +211,7 @@ class _GroceryManagerRequestedReliefCampItemsDetailState extends State<GroceryMa
               setState(() {
                 isRemarksButtonLoading=false;
               });
-            }, child: Text('Submit'))
+            }, child: isRemarksButtonLoading?Center(child: CircularProgressIndicator()):Text('Submit'))
           ],)
         ]),
       ),

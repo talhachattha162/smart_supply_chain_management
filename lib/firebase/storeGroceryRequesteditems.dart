@@ -33,7 +33,7 @@ class RequestedGroceryItemService {
     await _collectionReference.doc(id).delete();
   }
 
-  Future<List<RequestedGroceryItem>> getAllRequestedGroceryItems() async {
+  Future<List<RequestedGroceryItem>> getAllRequestedGroceryItems(String shopid) async {
     final QuerySnapshot querySnapshot = await _collectionReference.get();
 
     List<RequestedGroceryItem> requestedItems = [];
@@ -43,6 +43,7 @@ class RequestedGroceryItemService {
       RequestedGroceryItem.fromMap(docSnapshot.data() as Map<String, dynamic>);
       requestedItems.add(requestedItem);
     }
+    requestedItems=requestedItems.where((element) => element.groceryItems[0].shopId==shopid).toList();
 
     return requestedItems;
   }

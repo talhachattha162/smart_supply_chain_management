@@ -8,7 +8,7 @@ class MapMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('')),
+      appBar: AppBar(),
       body: FlutterMap(
         options: MapOptions(center: LatLng(33.6844, 73.0479),zoom: 6),
         children: <Widget>[
