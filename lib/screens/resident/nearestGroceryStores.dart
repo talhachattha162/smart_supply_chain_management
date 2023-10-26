@@ -83,7 +83,7 @@ class _NearestGroceryStoresState extends State<NearestGroceryStores> with Widget
           point: LatLng(cityLatitude, cityLongitude),
           builder: (context) => IconButton(
               icon:
-                  Icon(Icons.local_grocery_store, color: Colors.blueAccent),
+                  Icon(Icons.local_grocery_store, color: Color(0xFF028A0F)),
 
               onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => GroceryStoreDetails(groceryStore:nearestStore ,appbar:true,),))),
         ));

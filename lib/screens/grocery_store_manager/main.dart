@@ -223,8 +223,9 @@ class _GroceryStoreManagerMainState extends State<GroceryStoreManagerMain> {
       Center(child: Text('Approval Denied'))
         ,
 
-        appBar: AppBar(),
-        drawer: Drawer(backgroundColor: Colors.blueAccent,
+        appBar: AppBar(          title: Text('Store Manager')
+        ),
+        drawer: Drawer(backgroundColor: Color(0xFF028A0F),
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[

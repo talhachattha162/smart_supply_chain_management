@@ -6,6 +6,7 @@ import 'package:smart_supply_chain_management_fyp/screens/signup_screen.dart';
 
 import '../clippers/select_role_clipper.dart';
 import '../providers/selectrole.dart';
+import '../utils/theme.dart';
 
 class SelectRole extends StatelessWidget {
   const SelectRole({super.key});
@@ -34,7 +35,7 @@ class SelectRole extends StatelessWidget {
                 children: [
                   CircleAvatar(child: Image.asset('lib/assets/imgs/victim.png',width: width*0.125,),radius: 30),
                   Text('Resident'),
-                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Colors.blue[50],borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
+                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Color(0xFF028A0F),borderRadius: BorderRadius.circular(30)),child: Icon(color: Colors.white54,Icons.arrow_forward_ios))
                 ],
               ),
             ),
@@ -48,7 +49,7 @@ class SelectRole extends StatelessWidget {
                 children: [
                   CircleAvatar(child: Image.asset('lib/assets/imgs/manager.png',width: width*0.125,),radius: 30),
                   Text('Manager'),
-                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Colors.blue[50],borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
+                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Color(0xFF028A0F),borderRadius: BorderRadius.circular(30)),child: Icon(color: Colors.white54,Icons.arrow_forward_ios))
                 ],
               ),
             ),
@@ -63,7 +64,7 @@ class SelectRole extends StatelessWidget {
                 children: [
                   CircleAvatar(child: Image.asset('lib/assets/imgs/worker.png',width: width*0.125,),radius: 30),
                   Text('Relief Worker'),
-                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Colors.blue[50],borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
+                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Color(0xFF028A0F),borderRadius: BorderRadius.circular(30)),child: Icon(color: Colors.white54,Icons.arrow_forward_ios))
                 ],
               ),
             ),
@@ -78,7 +79,7 @@ class SelectRole extends StatelessWidget {
                 children: [
                   CircleAvatar(child: Image.asset('lib/assets/imgs/worker.png',width: width*0.125,),radius: 30),
                   Text('Donor'),
-                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Colors.blue[50],borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
+                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Color(0xFF028A0F),borderRadius: BorderRadius.circular(30)),child: Icon(color: Colors.white54,Icons.arrow_forward_ios))
                 ],
               ),
             ),
@@ -88,7 +89,7 @@ class SelectRole extends StatelessWidget {
           ClipPath(
             clipper: WavyBottomClipper(),
             child: Container(
-              color: Colors.blue,
+              color: container_color,
               height: height*0.09,
             ),
           ),

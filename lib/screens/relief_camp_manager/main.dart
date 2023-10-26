@@ -196,8 +196,9 @@ class _ReliefCampManagerMainState extends State<ReliefCampManagerMain> {
       Center(child: Text('Approval Denied'))
       ,
 
-        appBar: AppBar(),      resizeToAvoidBottomInset: false,
-        drawer: Drawer(backgroundColor: Colors.blueAccent,
+        appBar: AppBar(          title: Text('Camp Manager')
+        ),      resizeToAvoidBottomInset: false,
+        drawer: Drawer(backgroundColor: Color(0xFF028A0F),
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[

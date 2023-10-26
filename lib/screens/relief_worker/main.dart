@@ -15,8 +15,9 @@ class ReliefWorkerMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ReliefWorkerBody(),
-        appBar: AppBar(),      resizeToAvoidBottomInset: false,
-        drawer: Drawer(backgroundColor: Colors.blueAccent,
+        appBar: AppBar(          title: Text('Relief Worker')
+        ),      resizeToAvoidBottomInset: false,
+        drawer: Drawer(backgroundColor: Color(0xFF028A0F),
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[

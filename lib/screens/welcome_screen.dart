@@ -129,7 +129,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ClipPath(
                   clipper: BezierClipper(),
                   child: Container(
-                    color: Colors.blueAccent,
+                    color: container_color,
                     height: height*0.4,
                     child: Center(
                       child:
@@ -171,7 +171,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ClipPath(
                   clipper: WaveClipper(),
                   child: Container(
-                    color: Colors.blueAccent,
+                    color: container_color,
 height: height*0.2,
                   ),
                 ),

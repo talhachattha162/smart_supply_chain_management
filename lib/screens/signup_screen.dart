@@ -47,7 +47,7 @@ class SignupScreen extends StatelessWidget {
                         children: [
                           // SizedBox(height: height*0.02),
                           Image.asset(
-                            'lib/assets/gifs/signup.gif',
+                            'lib/assets/logo.png',
                             width: width,
                             height: height*0.3,
                           ),
@@ -216,7 +216,7 @@ class SignupScreen extends StatelessWidget {
                   ),ClipPath(
                     clipper: WavyBottomClipper(),
                     child: Container(
-                      color: Colors.blue,
+                      color: container_color,
                       height: height*0.09,
                     ),
                   ),

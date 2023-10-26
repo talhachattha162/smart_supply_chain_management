@@ -25,7 +25,7 @@ class ForgotPasswordScreen extends StatelessWidget {
           child: Column(children: [
             Image.asset(
               width:width,
-              'lib/assets/gifs/resetpassword.gif',
+              'lib/assets/logo.png',
               height: height*0.3,
             ),
             // SizedBox(height: height*0.01),

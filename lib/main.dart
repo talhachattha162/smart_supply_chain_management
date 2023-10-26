@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
         title: 'FYP',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blueAccent,
+            seedColor: Color(0xFF028A0F),
           ),
           useMaterial3: true,
         ),

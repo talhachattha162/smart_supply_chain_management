@@ -96,8 +96,9 @@ class DonorMain extends StatelessWidget {
               ],
             ),
           ]),
-          appBar: AppBar(),
-          drawer: Drawer(backgroundColor: Colors.blueAccent,
+          appBar: AppBar(          title: Text('Donor')
+          ),
+          drawer: Drawer(backgroundColor: Color(0xFF028A0F),
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[

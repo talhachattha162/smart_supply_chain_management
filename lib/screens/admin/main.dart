@@ -34,7 +34,7 @@ class AdminMain extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         shadows: [
                           BoxShadow(
-                            color: Colors.blueAccent,
+                            color: Color(0xFF028A0F),
                             blurRadius: 50,
                           )
                         ],
@@ -156,7 +156,7 @@ class AdminMain extends StatelessWidget {
             ),
           ]),
           appBar: AppBar(),
-          drawer: Drawer(backgroundColor: Colors.blueAccent,
+          drawer: Drawer(backgroundColor: Color(0xFF028A0F),
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[

@@ -4,6 +4,7 @@ import 'package:smart_supply_chain_management_fyp/screens/signup_screen.dart';
 
 import '../clippers/select_role_clipper.dart';
 import '../providers/selectrole.dart';
+import '../utils/theme.dart';
 
 
 class SelectManagerRole extends StatelessWidget {
@@ -30,7 +31,7 @@ class SelectManagerRole extends StatelessWidget {
                 children: [
                   CircleAvatar(child: Image.asset('lib/assets/imgs/reliefmanager.png',width: width*0.125,),radius: 30),
                   Text('Relief Camp Manager'),
-                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Colors.blue[50],borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
+                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Color(0xFF028A0F),borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
                 ],
               ),
             ),
@@ -46,7 +47,7 @@ class SelectManagerRole extends StatelessWidget {
                 children: [
                   CircleAvatar(child: Image.asset('lib/assets/imgs/grocerymanager.png',width: width*0.125,),radius: 30),
                   Text('Grocery Store Manager'),
-                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Colors.blue[50],borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
+                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Color(0xFF028A0F),borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
 
                 ],
               ),
@@ -62,7 +63,7 @@ class SelectManagerRole extends StatelessWidget {
                 children: [
                   CircleAvatar(child: Image.asset('lib/assets/imgs/medicalmanager.png',width: width*0.125,),radius: 30),
                   Text('Medical Facility Manager'),
-                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Colors.blue[50],borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
+                  Container( padding:EdgeInsets.all(8),decoration: BoxDecoration(color:Color(0xFF028A0F),borderRadius: BorderRadius.circular(30)),child: Icon(Icons.arrow_forward_ios))
 
                 ],
               ),
@@ -71,7 +72,7 @@ class SelectManagerRole extends StatelessWidget {
     ),ClipPath(
             clipper: WavyBottomClipper(),
             child: Container(
-              color: Colors.blue,
+              color: container_color,
               height: height*0.09,
             ),
           ),

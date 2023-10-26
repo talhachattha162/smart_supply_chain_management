@@ -50,7 +50,7 @@ class _TrendsState extends State<Trends> {
 
     // Get the user's position
     LocationService locationService = LocationService();
-    LatLng userPosition = await locationService.getPosition();
+    userPosition = await locationService.getPosition();
 
     // Get the current timestamp and the timestamp 7 days ago
     DateTime now = DateTime.now();
@@ -136,7 +136,7 @@ class _TrendsState extends State<Trends> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PostsFilter(
+                              builder: (context) => PostsFilter(userLatitude: userPosition.latitude,userLongitude: userPosition.longitude,
                                   searchText: trend[index]),
                             ));
                       },

@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               // SizedBox(height: height*0.02),
                               Image.asset(
                                 width: width,
-                                'lib/assets/gifs/login.gif',
+                                'lib/assets/logo.png',
                                 height: height * 0.3,
                               ),
                               TextFormField(
