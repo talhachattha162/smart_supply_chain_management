@@ -13,8 +13,8 @@ import '../../utils/theme.dart';
 import 'crowdsourcing.dart';
 import 'nearestGroceryStores.dart';
 
-class RequestSuppliesMain extends StatelessWidget {
-  const RequestSuppliesMain({super.key});
+class RequestedSuppliesMain extends StatelessWidget {
+  const RequestedSuppliesMain({super.key});
 
   @override
   Widget build(BuildContext context) {

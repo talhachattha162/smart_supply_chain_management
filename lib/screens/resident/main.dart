@@ -4,7 +4,7 @@ import 'package:smart_supply_chain_management_fyp/main.dart';
 import 'package:smart_supply_chain_management_fyp/screens/resident/nearestMedicalFacilities.dart';
 import 'package:smart_supply_chain_management_fyp/screens/resident/nearestReliefCamps.dart';
 import 'package:smart_supply_chain_management_fyp/screens/resident/requestSupplies.dart';
-import 'package:smart_supply_chain_management_fyp/screens/resident/requestSuppliesMain.dart';
+import 'package:smart_supply_chain_management_fyp/screens/resident/requestedSuppliesMain.dart';
 import 'package:smart_supply_chain_management_fyp/screens/resident/resident_requested_grocery_items.dart';
 import 'package:smart_supply_chain_management_fyp/screens/resident/resident_requested_medical_items.dart';
 import 'package:smart_supply_chain_management_fyp/screens/resident/resident_requested_relief_camp_items.dart';
@@ -53,7 +53,7 @@ class ResidentMain extends StatelessWidget {
                             border: Border.all(color: container_border, width: 1),
                             borderRadius: BorderRadius.circular(5)),
                         child: Center(
-                          child: Text('View Supplies',
+                          child: Text('Request Supplies',
                               style: TextStyle(
                                   color: Colors.white70,
                                   fontWeight: FontWeight.bold,
@@ -69,7 +69,7 @@ class ResidentMain extends StatelessWidget {
                 children: [
                   InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RequestSuppliesMain(),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RequestedSuppliesMain(),));
                       },
                       child: Container(
                         width: width * 0.47,
@@ -86,7 +86,7 @@ class ResidentMain extends StatelessWidget {
                             border: Border.all(color: container_border, width: 1),
                             borderRadius: BorderRadius.circular(5)),
                         child: Center(
-                          child: Text('Request Supplies',
+                          child: Text('Requested Supplies',
                               style: TextStyle(
                                   color: Colors.white70,
                                   fontWeight: FontWeight.bold,
